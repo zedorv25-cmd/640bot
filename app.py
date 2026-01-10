@@ -6,7 +6,7 @@ from threading import Thread
 # 1. Получение токена с защитой от NoneType
 # В логах была ошибка TypeError: 'NoneType' object is not iterable, 
 # потому что TOKEN был пуст. Теперь мы это проверяем.
-TOKEN = os.environ.get('8349153278:AAEz5jx0uavBacPJI6zaz7KCO8-mQsnV8Ck')
+TOKEN = '8349153278:AAEz5jx0uavBacPJi6zaz7KC08-mQsnV8Ck'
 
 def create_bot():
     if not TOKEN:
