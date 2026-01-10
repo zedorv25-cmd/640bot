@@ -3,54 +3,59 @@ import telebot
 from flask import Flask
 from threading import Thread
 
-# 1. Безопасное получение токена
-# Убедитесь, что в Render переменная называется именно BOT_TOKEN
+# 1. Получение токена с защитой от NoneType
+# В логах была ошибка TypeError: 'NoneType' object is not iterable, 
+# потому что TOKEN был пуст. Теперь мы это проверяем.
 TOKEN = os.environ.get('8349153278:AAEz5jx0uavBacPJI6zaz7KCO8-mQsnV8Ck')
 
-# Проверка на наличие токена, чтобы избежать ошибки "NoneType"
-if not TOKEN:
-    print("CRITICAL ERROR: BOT_TOKEN is not set in Environment Variables!")
-    bot = None
-else:
-    bot = telebot.TeleBot(TOKEN)
+def create_bot():
+    if not TOKEN:
+        # Эта надпись появится в логах Render красным, если переменная не подхватится
+        print("!!! CRITICAL ERROR: BOT_TOKEN is missing in Environment Variables !!!")
+        return None
+    try:
+        return telebot.TeleBot(TOKEN)
+    except Exception as e:
+        print(f"!!! Error initializing bot: {e} !!!")
+        return None
 
-# 2. Настройка Flask (нужна для Render, чтобы сервис был "Live")
+bot = create_bot()
+
+# 2. Flask-сервер для "обмана" Render
+# Render ожидает активность на порту, иначе считает сервис упавшим.
 app = Flask(__name__)
 
 @app.route('/')
-def home():
-    return "Project 640 Status: Running"
+def index():
+    return "640bot is Live. Web server is active."
 
-@app.route('/health')
-def health():
-    return "OK", 200
-
-def run_flask():
-    # Render требует порт 10000 для Free тарифа
+def run_web():
+    # Используем порт 10000, который требует Render
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
-# 3. Логика Telegram бота
+# 3. Обработчики команд бота
 if bot:
     @bot.message_handler(commands=['start'])
-    def send_welcome(message):
-        bot.reply_to(message, "Проект 640 запущен! Бот успешно прошел все этапы деплоя.")
+    def start_cmd(message):
+        bot.reply_to(message, "Проект 640: Система запущена и работает корректно!")
 
-    @bot.message_handler(func=lambda message: True)
-    def echo_all(message):
-        bot.reply_to(message, f"Получено сообщение: {message.text}")
+    @bot.message_handler(func=lambda m: True)
+    def echo_msg(message):
+        bot.reply_to(message, f"Бот на связи! Вы написали: {message.text}")
 
-# 4. Запуск приложения
+# 4. Запуск всего вместе
 if __name__ == "__main__":
-    # Запускаем Flask в отдельном потоке
-    flask_thread = Thread(target=run_flask)
-    flask_thread.daemon = True
-    flask_thread.start()
+    # Запускаем веб-сервер в отдельном потоке, чтобы он не мешал боту
+    web_thread = Thread(target=run_web)
+    web_thread.daemon = True
+    web_thread.start()
     
     if bot:
-        print("Starting bot polling...")
-        # infinity_polling автоматически перезапускается при временных сбоях сети
-        bot.infinity_polling(timeout=10, long_polling_timeout=5)
+        print("Bot is starting polling...")
+        # infinity_polling устойчив к временным разрывам связи
+        bot.infinity_polling(timeout=20, long_polling_timeout=10)
     else:
-        # Если бота нет, просто держим поток Flask живым
-        flask_thread.join()
+        print("Bot failed to start due to missing token.")
+        # Оставляем поток живым, чтобы Render не перезагружал сервис мгновенно
+        web_thread.join()
