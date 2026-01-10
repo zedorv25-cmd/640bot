@@ -3,26 +3,54 @@ import telebot
 from flask import Flask
 from threading import Thread
 
-# Забираем токен из настроек Render
-TOKEN = os.getenv('8349153278:AAEz5jx0uavBacPJI6zaz7KCO8-mQsnV8Ck')
-bot = telebot.TeleBot(TOKEN)
+# 1. Безопасное получение токена
+# Убедитесь, что в Render переменная называется именно BOT_TOKEN
+TOKEN = os.environ.get('8349153278:AAEz5jx0uavBacPJI6zaz7KCO8-mQsnV8Ck')
 
+# Проверка на наличие токена, чтобы избежать ошибки "NoneType"
+if not TOKEN:
+    print("CRITICAL ERROR: BOT_TOKEN is not set in Environment Variables!")
+    bot = None
+else:
+    bot = telebot.TeleBot(TOKEN)
+
+# 2. Настройка Flask (нужна для Render, чтобы сервис был "Live")
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return "640bot is running!"
+def home():
+    return "Project 640 Status: Running"
 
-def run_web():
-    # Порт 10000 обязателен для бесплатного тарифа Render
-    app.run(host='0.0.0.0', port=10000)
+@app.route('/health')
+def health():
+    return "OK", 200
 
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, "Проект 640 активирован. Бот готов к работе!")
+def run_flask():
+    # Render требует порт 10000 для Free тарифа
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
 
+# 3. Логика Telegram бота
+if bot:
+    @bot.message_handler(commands=['start'])
+    def send_welcome(message):
+        bot.reply_to(message, "Проект 640 запущен! Бот успешно прошел все этапы деплоя.")
+
+    @bot.message_handler(func=lambda message: True)
+    def echo_all(message):
+        bot.reply_to(message, f"Получено сообщение: {message.text}")
+
+# 4. Запуск приложения
 if __name__ == "__main__":
-    # Запуск веб-сервера в фоне
-    Thread(target=run_web).start()
-    # Запуск самого бота
-    bot.infinity_polling()
+    # Запускаем Flask в отдельном потоке
+    flask_thread = Thread(target=run_flask)
+    flask_thread.daemon = True
+    flask_thread.start()
+    
+    if bot:
+        print("Starting bot polling...")
+        # infinity_polling автоматически перезапускается при временных сбоях сети
+        bot.infinity_polling(timeout=10, long_polling_timeout=5)
+    else:
+        # Если бота нет, просто держим поток Flask живым
+        flask_thread.join()
