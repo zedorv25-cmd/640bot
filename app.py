@@ -4,7 +4,7 @@ from flask import Flask
 from threading import Thread
 
 # Устанавливаем токен напрямую как строку, чтобы Render его точно увидел
-TOKEN = '8349153278:AAFUsEbPal51tJ8oIVcX6T9u8pBvY7_jLIg'
+TOKEN = '8349153278:AAGP0SgBwqWZeY8cfw7Jf86My1MRkJSGd_8'
 
 def create_bot():
     try:
