@@ -4,7 +4,7 @@ from flask import Flask
 from threading import Thread
 
 # БЕРЕМ ТОКЕН ТОЛЬКО ИЗ НАСТРОЕК RENDER
-TOKEN = os.getenv('8349153278:AAGP0SgBwqWZeY8cfw7Jf86My1MRkJSGd_8')
+TOKEN = os.getenv('BOT_TOKEN')
 
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
