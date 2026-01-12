@@ -1,10 +1,10 @@
 import os
 import telebot
-import yt_dlp
 from flask import Flask
 from threading import Thread
 
-TOKEN = '8349153278:AAGP0SgBwqwZeY8cfw7JF86My1MRkJSGd_8'
+# Теперь код будет брать токен из настроек Render автоматически
+TOKEN = os.getenv('8349153278:AAGP0SgBwqWZeY8cfw7Jf86My1MRkJSGd_8') 
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
 
