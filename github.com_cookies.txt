@@ -1,0 +1,17 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.github.com	TRUE	/	TRUE	1799757519	_octo	GH1.1.1197574364.1768221513
+.github.com	TRUE	/	TRUE	0	cpu_bucket	xlg
+.github.com	TRUE	/	TRUE	0	preferred_color_mode	dark
+.github.com	TRUE	/	TRUE	0	tz	Asia%2FTashkent
+github.com	FALSE	/	TRUE	1799757526	_device_id	0b168fcb61953739552d0b6fadf077ea
+github.com	FALSE	/	TRUE	1775997555	saved_user_sessions	246413859%3AxjRSlyqmVjKkVRwMUe21oy54nfsEWkbksxg_oohnQOTSW9yi
+github.com	FALSE	/	TRUE	1769431154	user_session	xjRSlyqmVjKkVRwMUe21oy54nfsEWkbksxg_oohnQOTSW9yi
+github.com	FALSE	/	TRUE	1769431154	__Host-user_session_same_site	xjRSlyqmVjKkVRwMUe21oy54nfsEWkbksxg_oohnQOTSW9yi
+github.com	FALSE	/	TRUE	0	tz	Asia%2FTashkent
+.github.com	TRUE	/	TRUE	0	color_mode	%7B%22color_mode%22%3A%22auto%22%2C%22light_theme%22%3A%7B%22name%22%3A%22light%22%2C%22color_mode%22%3A%22light%22%7D%2C%22dark_theme%22%3A%7B%22name%22%3A%22dark%22%2C%22color_mode%22%3A%22dark%22%7D%7D
+.github.com	TRUE	/	TRUE	1799757555	logged_in	yes
+.github.com	TRUE	/	TRUE	1799757555	dotcom_user	zedorv25-cmd
+github.com	FALSE	/	TRUE	0	_gh_sess	%2BKKjxdNC2rB4bqVgcvK1B%2BwGMqnpIQpvJY%2FXcTh90uuas4g9M4kz45cuLKbL0nsonDaAxWRBAfgGw%2BuSFyMy%2BuM5N0G3vPHzZ91pnaUT%2FZx14ZUQGwgffTbcCuvLor5CL0dwQhG9eUD3nqJnEsoCKCn6gs%2FDKJJlqXQEd6kbgelhUMHODK2J4gDliwWlqFlCCkzoeb92Saco1oOMw%2FsmbaYsRs7Y7ftZxccBuoe733w0t3ezeOT%2FxGT7Tvq%2BHc3ysHGC8Hkx0siMzfOTyQG1Ehl4PZm6NSRoRDmt266dl%2B%2B1cS7CLRtsxrHHdyFJ32bWGUmX2Fnm%2BbadDqOA065YW03TkYW635kLo6a5OV%2Bn48txKXkjjUxBbwUIoGW1gcJCWGGLY2FB8w2k%2FxeeOG%2FVFNTR5RNkQCzxcsv8lKMddRFBP9A8ynyqNVyhauqiRMbVdPCt6I%2BbJiRHFzH2hmKgJJQkwoZf5WOO80kM6pssN7PnwKtnFFh%2BESXc6lX99%2Fk2CIXunIEEj25OlTjZQFNeVsv4w7s%3D--%2BmNPDt03ZBISnWpd--md%2BL55DrT%2BolxDeKpkAJ%2FA%3D%3D
